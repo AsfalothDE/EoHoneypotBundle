@@ -13,7 +13,6 @@ namespace Eo\HoneypotBundle\Form\Type;
 
 use Eo\HoneypotBundle\Events;
 use Eo\HoneypotBundle\Event\BirdInCageEvent;
-use Doctrine\Common\Persistence\ObjectManager;
 use Eo\HoneypotBundle\Manager\HoneypotManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormError;
@@ -80,12 +79,12 @@ class HoneypotType extends AbstractType
             $prey = $honeypotManager->createNew($request->getClientIp());
 
             // Dispatch bird.in.cage event
-            $eventDispatcher->dispatch(Events::BIRD_IN_CAGE, new BirdInCageEvent($prey));
+            $eventDispatcher->dispatch(new BirdInCageEvent($prey), Events::BIRD_IN_CAGE);
 
             // Save prey
             $honeypotManager->save($prey);
 
-            if ($options['causesError']) {
+            if (isset($options['causesError']) && $options['causesError']) {
                 $form->getParent()->addError(new FormError('Form is invalid.'));
             }
         });

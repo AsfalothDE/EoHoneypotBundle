@@ -11,9 +11,10 @@
 
 namespace Eo\HoneypotBundle\Manager;
 
+use Doctrine\Persistence\ObjectRepository;
 use Eo\HoneypotBundle\Model\HoneypotPrey;
 use Eo\HoneypotBundle\Model\HoneypotPreyInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class HoneypotManager
 {
@@ -77,7 +78,7 @@ class HoneypotManager
     {
         if ($this->isDbEnabled()) {
             $this->getObjectManager()->persist($prey);
-            $this->getObjectManager()->flush($prey);
+            $this->getObjectManager()->flush();
         }
 
         if ($this->isFileEnabled()) {
