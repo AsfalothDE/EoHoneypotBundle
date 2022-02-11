@@ -22,5 +22,5 @@ final class Events
      *
      * @var string
      */
-    const BIRD_IN_CAGE = 'bird.in.cage';
+    public const BIRD_IN_CAGE = 'bird.in.cage';
 }

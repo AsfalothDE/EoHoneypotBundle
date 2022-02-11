@@ -117,8 +117,8 @@ class HoneypotType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
-        return 'Symfony\Component\Form\Extension\Core\Type\TextType';
+        return \Symfony\Component\Form\Extension\Core\Type\TextType::class;
     }
 }
