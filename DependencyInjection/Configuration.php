@@ -24,10 +24,17 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritDoc}
      */
-    public function getConfigTreeBuilder(): \Symfony\Component\Config\Definition\Builder\TreeBuilder
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('eo_honeypot');
-        $rootNode = $treeBuilder->getRootNode();
+        if (\method_exists(TreeBuilder::class, 'getRootNode')) {
+            // Symfony 4.1+
+            $treeBuilder = new TreeBuilder('eo_honeypot');
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            // Symfony <= 4.0
+            $treeBuilder = new TreeBuilder();
+            $rootNode = $treeBuilder->root('eo_honeypot');
+        }
 
         $rootNode
             ->children()

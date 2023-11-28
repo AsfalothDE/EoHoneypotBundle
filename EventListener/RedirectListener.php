@@ -5,7 +5,6 @@ use Eo\HoneypotBundle\Manager\HoneypotManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
-use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\Routing\RouterInterface;
 
 class RedirectListener
@@ -28,7 +27,7 @@ class RedirectListener
 
     public function onKernelResponse(ResponseEvent $event)
     {
-        if (HttpKernel::MASTER_REQUEST != $event->getRequestType()) {
+        if (!$event->isMainRequest()) {
             return;
         }
 
