@@ -11,6 +11,7 @@
 
 namespace Eo\HoneypotBundle\Form\Type;
 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Eo\HoneypotBundle\Events;
 use Eo\HoneypotBundle\Event\BirdInCageEvent;
 use Eo\HoneypotBundle\Manager\HoneypotManager;
@@ -26,26 +27,26 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class HoneypotType extends AbstractType
 {
     /**
-     * @var Symfony\Component\HttpFoundation\RequestStack
+     * @var RequestStack
      */
     protected $requestStack;
 
     /**
-     * @var Eo\HoneypotBundle\Manager\HoneypotManager
+     * @var HoneypotManager
      */
     protected $honeypotManager;
 
     /**
-     * @var Symfony\Component\EventDispatcher\EventDispatcherInterface
+     * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
 
     /**
      * Class constructor
      *
-     * @param Symfony\Component\HttpFoundation\RequestStack $requestStack
-     * @param Eo\HoneypotBundle\Manager\HoneypotManager $honeypotManager
-     * @param Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
+     * @param RequestStack $requestStack
+     * @param HoneypotManager $honeypotManager
+     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(RequestStack $requestStack, HoneypotManager $honeypotManager, EventDispatcherInterface $eventDispatcher)
     {
@@ -95,12 +96,12 @@ class HoneypotType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
-            'required'    => false,
-            'mapped'      => false,
-            'data'        => '',
+        $resolver->setDefaults([
+            'required' => false,
+            'mapped' => false,
+            'data' => '',
             'causesError' => true,
-            'attr'        => array(
+            'attr' => [
                 // autocomplete="off" does not work in some cases, random strings always do
                 'autocomplete' => 'nope',
                 // Make the field unfocusable for keyboard users
@@ -109,9 +110,9 @@ class HoneypotType extends AbstractType
                 'aria-hidden' => 'true',
                 // Fake `display:none` css behaviour to hide input
                 // as some bots may also check inputs visibility
-                'style' => 'position: fixed; left: -100%; top: -100%;'
-            )
-        ));
+                'style' => 'position: fixed; left: -100%; top: -100%;',
+            ]
+        ]);
     }
 
     /**
@@ -119,6 +120,6 @@ class HoneypotType extends AbstractType
      */
     public function getParent(): ?string
     {
-        return \Symfony\Component\Form\Extension\Core\Type\TextType::class;
+        return TextType::class;
     }
 }

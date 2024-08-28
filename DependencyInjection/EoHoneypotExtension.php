@@ -11,6 +11,7 @@
 
 namespace Eo\HoneypotBundle\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -33,23 +34,17 @@ class EoHoneypotExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
         // Set db
         if ($config['storage']['database']['enabled']) {
-            switch ($config['storage']['database']['driver']) {
-                case 'orm':
-                    $db = new Reference('doctrine.orm.entity_manager');
-                    break;
-                case 'mongodb':
-                    $db = new Reference('doctrine.odm.mongodb.document_manager');
-                    break;
-                default:
-                    throw new \LogicException("Invalid db driver given");
-                    break;
-            }
-            $container->getDefinition('eo_honeypot.manager')->addMethodCall('setObjectManager', array($db));
+            $db = match ($config['storage']['database']['driver']) {
+                'orm' => new Reference('doctrine.orm.entity_manager'),
+                'mongodb' => new Reference('doctrine.odm.mongodb.document_manager'),
+                default => throw new \LogicException("Invalid db driver given"),
+            };
+            $container->getDefinition('eo_honeypot.manager')->addMethodCall('setObjectManager', [$db]);
         }
         $container->setParameter('eo_honeypot.options', $config);
 

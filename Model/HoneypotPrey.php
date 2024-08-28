@@ -22,11 +22,6 @@ class HoneypotPrey implements HoneypotPreyInterface
     protected $id;
 
     /**
-     * @var string
-     */
-    protected $ip;
-
-    /**
      * @var \DateTime
      */
     protected $createdAt;
@@ -36,9 +31,8 @@ class HoneypotPrey implements HoneypotPreyInterface
      *
      * @param string $ip
      */
-    public function __construct($ip = null)
+    public function __construct(protected $ip = null)
     {
-        $this->ip = $ip;
         $this->createdAt = new \DateTime();
     }
 

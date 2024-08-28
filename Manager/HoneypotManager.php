@@ -49,7 +49,7 @@ class HoneypotManager
         if (!$this->isDbEnabled()) {
             throw new \LogicException("Can not check ip without database storage");
         }
-        return count($this->getRepository()->findBy(array('ip' => $ip))) > 0;
+        return count($this->getRepository()->findBy(['ip' => $ip])) > 0;
     }
 
     /**

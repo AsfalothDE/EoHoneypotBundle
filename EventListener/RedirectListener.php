@@ -22,7 +22,7 @@ class RedirectListener
 
     public function onBirdInCage()
     {
-        $this->eventDispatcher->addListener('kernel.response', array($this, 'onKernelResponse'));
+        $this->eventDispatcher->addListener('kernel.response', $this->onKernelResponse(...));
     }
 
     public function onKernelResponse(ResponseEvent $event)

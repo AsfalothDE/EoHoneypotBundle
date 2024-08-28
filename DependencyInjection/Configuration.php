@@ -60,7 +60,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('driver')
                                     ->defaultValue('mongodb')
                                     ->validate()
-                                    ->ifNotInArray(array('orm', 'mongodb'))
+                                    ->ifNotInArray(['orm', 'mongodb'])
                                         ->thenInvalid('Invalid database driver "%s"')
                                     ->end()
                                 ->end()
